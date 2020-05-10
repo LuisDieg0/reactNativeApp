@@ -1,36 +1,153 @@
-import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import React, { Component, useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  AsyncStorage,
+  Image,
+  FlatList
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-const instructions = Platform.select({
-  ios: `Press Cmd+R to reload,\nCmd+D or shake for dev menu`,
-  android: `Double tap R on your keyboard to reload,\nShake or press menu button for dev menu`,
-});
+const KEY_SAVE_COUNTER = "KEY_SAVE_COUNTER";
 
-export default function App() {
+// componente de clase
+export class AppClass extends Component {
+  // estado
+  state = {
+    counter: 0,
+    array: new Array(20).fill({})
+  };
+
+  async componentWillMount() {
+    const counter = await AsyncStorage.getItem(KEY_SAVE_COUNTER);
+    this.setState({ counter: parseInt(counter) });
+    // se ejecuta antes del render
+  }
+  componentDidMount() {
+    // se ejecuta despues del render
+  }
+  componentWillReceiveProps(props) {
+    /* parms : props */
+    // recive las propiedades al ser usada
+  }
+
+  componentWillUnmount() {
+    // se ejecuta cunado el componente muere
+  }
+
+  aumenta = () => {
+    this.setState({
+      counter: this.state.counter + 1
+    });
+    this.saveStorage(this.state.counter + 1);
+  };
+
+  disminuir = () => {
+    this.setState({
+      counter: this.state.counter - 1
+    });
+    this.saveStorage(this.state.counter - 1);
+  };
+
+  // guardar en la memoria del dispositivo
+  saveStorage = item => {
+    AsyncStorage.setItem(KEY_SAVE_COUNTER, `${item}`);
+  };
+
+  renderItem = ({ image, title, onPress }) => {
+    return (
+      <TouchableOpacity
+        style={{ flexDirection: "row", padding: 10 }}
+        onPress={onPress}
+      >
+        <Image style={{ height: 25, width: 25 }} source={image} />
+        <Text style={{ marginLeft: 10 }}>{title}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  render() {
+    return (
+      <ScrollView style={{ flex: 1, marginTop: 50 }}>
+        <View style={{ flexDirection: "row", padding: 20 }}>
+          <View>
+            <View
+              style={{
+                height: 80,
+                width: 80,
+                borderRadius: 40,
+                backgroundColor: "#C4C4C4"
+              }}
+            ></View>
+          </View>
+          <View style={{ flex: 1, marginLeft: 20 }}>
+            <Text>Pablo Gutierrez</Text>
+
+            <Text>4.7</Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            borderTopRightRadius: 20,
+            borderTopLeftRadius: 20,
+            borderWidth: 1,
+            borderColor: "#4C939E",
+            padding: 20
+          }}
+        ></View>
+        <FlatList
+          data={this.state.array}
+          renderItem={({}) => {
+            return this.renderItem({
+              image: require("./assetes/ic_profile.png"),
+              title: "Mis datos personales",
+              onPress: () => {}
+            });
+          }}
+        />
+      </ScrollView>
+    );
+  }
+}
+
+// componente con funcion
+// nombre comun hooks
+// dos tipos de funciones
+// funcion normal function name(){}
+// funcion flecha name=()=>{}
+
+export function AppFunction() {
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    // se ejecuta despues del return
+    // se ejecuta antes del return
+    // recive las propiedades al ser usada
+    return () => {
+      // se ejecuta cunado el componente muere
+    };
+  });
+
+  const aumenta = () => {
+    setCounter(counter + 1);
+  };
+
+  const disminuir = () => {
+    setCounter(counter - 1);
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to React Native!</Text>
-      <Text style={styles.instructions}>To get started, edit App.js</Text>
-      <Text style={styles.instructions}>{instructions}</Text>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={{ color: "red" }}>{counter}</Text>
+      <TouchableOpacity onPress={aumenta}>
+        <Text>Aumentar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={disminuir}>
+        <Text>Disminuir</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+export default AppClass;
