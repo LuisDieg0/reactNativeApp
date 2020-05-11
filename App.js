@@ -99,11 +99,11 @@ export class AppClass extends Component {
         ></View>
         <FlatList
           data={this.state.array}
-          renderItem={({}) => {
+          renderItem={({ }) => {
             return this.renderItem({
-              image: require("./assetes/ic_profile.png"),
+              image: null,
               title: "Mis datos personales",
-              onPress: () => {}
+              onPress: () => { }
             });
           }}
         />
@@ -138,16 +138,20 @@ export function AppFunction() {
     setCounter(counter - 1);
   };
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1 }}>
       <Text style={{ color: "red" }}>{counter}</Text>
-      <TouchableOpacity onPress={aumenta}>
-        <Text>Aumentar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={disminuir}>
-        <Text>Disminuir</Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity style={{ flex: 1, backgroundColor: "orange", }} onPress={aumenta}>
+          <Text style={{padding:10}}>Aumentar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{ flex: 1, backgroundColor: "red",  }} onPress={disminuir}>
+          <Text style={{padding:10}} >Disminuir</Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 }
 
-export default AppClass;
+export default AppFunction;
