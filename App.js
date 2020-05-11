@@ -141,9 +141,12 @@ export function AppFunction() {
     <View style={{ flex: 1 }}>
       <Text style={{ color: "red" }}>{counter}</Text>
       <View>
-        <TouchableOpacity style={{ flex: 1, backgroundColor: "orange", }} onPress={aumenta}>
+        <TouchableOpacity style={{ flex: 1, backgroundColor: "orange", marginTop:10 }} onPress={aumenta}>
           <Text style={{padding:10}}>Aumentar</Text>
         </TouchableOpacity>
+        <Text style={{}}>
+          hola mundo
+        </Text>
 
         <TouchableOpacity style={{ flex: 1, backgroundColor: "red",  }} onPress={disminuir}>
           <Text style={{padding:10}} >Disminuir</Text>
